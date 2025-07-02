@@ -1,32 +1,28 @@
-import { useLogin } from "../../hooks/useAuth";
-import { z } from "zod";
-import {
-  Form,
-  FormField,
-  FormControl,
-  FormItem,
-  FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { loginSchema } from "./schema";
+'use client'
 
-type LoginSchema = z.infer<typeof loginSchema>;
+import { useLogin } from '@/hooks/useAuth'
+import { z } from 'zod'
+import { Form, FormField, FormControl, FormItem, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { loginSchema } from './schema'
+
+type LoginSchema = z.infer<typeof loginSchema>
 
 export default function LoginForm() {
   const formHook = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "" },
-  });
-  const router = useRouter();
-  const [login, { data, loading, error }] = useLogin();
+    defaultValues: { email: '', password: '' },
+  })
+  const router = useRouter()
+  const [login, { data, loading, error }] = useLogin()
 
   const onSubmit = async (values: LoginSchema) => {
-    await login({ variables: values });
-  };
+    await login({ variables: values })
+  }
 
   return (
     <Form {...formHook}>
@@ -59,18 +55,12 @@ export default function LoginForm() {
           Login
         </Button>
 
-        <Button
-          variant={"ghost"}
-          onClick={() => router.push("/register")}
-          className="w-full"
-        >
+        <Button variant={'ghost'} onClick={() => router.push('/register')} className="w-full">
           Register
         </Button>
         {error && <div className="text-red-800">{error.message}</div>}
-        {data && (
-          <div className="text-green-500">Welcome, {data.login.user.name}</div>
-        )}
+        {data && <div className="text-green-500">Welcome, {data.login.user.name}</div>}
       </form>
     </Form>
-  );
+  )
 }

@@ -1,35 +1,31 @@
-import { useRegister } from "../../hooks/useAuth";
-import { z } from "zod";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormControl,
-  FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema } from "./schema";
+'use client'
 
-type RegisterSchema = z.infer<typeof registerSchema>;
+import { useRegister } from '@/hooks/useAuth'
+import { z } from 'zod'
+import { Form, FormField, FormItem, FormControl, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { registerSchema } from './schema'
+
+type RegisterSchema = z.infer<typeof registerSchema>
 
 export default function RegisterForm() {
   const formHook = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      name: '',
+      email: '',
+      password: '',
     },
-  });
+  })
 
-  const [register, { data, loading, error }] = useRegister();
+  const [register, { data, loading, error }] = useRegister()
 
   const onSubmit = async (values: RegisterSchema) => {
-    await register({ variables: values });
-  };
+    await register({ variables: values })
+  }
 
   return (
     <Form {...formHook}>
@@ -81,5 +77,5 @@ export default function RegisterForm() {
         {data && <div className="text-green-500">Registration successful!</div>}
       </form>
     </Form>
-  );
+  )
 }
