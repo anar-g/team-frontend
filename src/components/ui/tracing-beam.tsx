@@ -45,7 +45,7 @@ export const TracingBeam = ({ children, className }: { children: React.ReactNode
         <div className="absolute top-3 left-4 z-10">
           {/* Starting dot */}
           <motion.div
-            className="bg-background ml-[27px] flex h-4 w-4 items-center justify-center rounded-full border border-neutral-800 shadow-sm"
+            className="bg-background ml-[27px] flex h-4 w-4 items-center justify-center rounded-full border border-neutral-100"
             animate={{
               boxShadow: scrollYProgress.get() > 0 ? 'none' : 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
             }}

@@ -66,7 +66,7 @@ export default function HomePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-neutral-950">
+    <div className="relative min-h-screen bg-white dark:bg-neutral-950">
       <HeroSection />
       <TracingBeam className="px-6">
         <div className="mx-auto max-w-2xl pt-4 antialiased">

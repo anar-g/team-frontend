@@ -1,10 +1,12 @@
-import { ThemeProvider } from '@/components/theme-provider'
+'use client'
+
 import { FloatingDock } from '@/components/ui/floating-dock'
 import { cn } from '@/lib/utils'
 import { IconClipboardList, IconHome, IconLivePhoto, IconTrophy, IconUserCircle } from '@tabler/icons-react'
-import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import useScrollPosition from '@/hooks/useScroll'
+import { useEffect, useState } from 'react'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -16,16 +18,18 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
-export const metadata: Metadata = {
-  title: 'DDAM CUP',
-  description: 'Made with <3',
-}
+// export const metadata: Metadata = {
+//   title: 'DDAM CUP',
+//   description: 'Made with <3',
+// }
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const [isInTop, setIsInTop] = useState<boolean>(false)
+
   const links = [
     {
       title: 'Home',
@@ -53,13 +57,25 @@ export default function RootLayout({
       href: '#',
     },
   ]
+
+  const [scroll] = useScrollPosition()
+  useEffect(() => {
+    if (scroll > document.documentElement.clientHeight) {
+      setIsInTop(false)
+    } else {
+      setIsInTop(true)
+    }
+  }, [scroll])
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(geistSans.variable, geistMono.variable, 'relative size-full min-h-screen antialiased')}>
         {children}
-        <div className="absolute bottom-4 flex w-full items-center justify-center">
-          <FloatingDock items={links} />
-        </div>
+        {!isInTop && (
+          <div className="fixed bottom-4 flex w-full items-center justify-center">
+            <FloatingDock items={links} />
+          </div>
+        )}
       </body>
     </html>
   )
